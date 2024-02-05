@@ -32,8 +32,9 @@ public class Usuario implements UserDetails {
   private String email;
   private String password;
 
-  @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "usuario")
   private Set<Fazenda> fazendas;
+
   private UsuarioRole role;
 
 
@@ -43,6 +44,13 @@ public class Usuario implements UserDetails {
     this.role = role;
   }
 
+  public Usuario(String nome, String cpf, String email, String password, UsuarioRole role) {
+    this.nome = nome;
+    this.cpf = cpf;
+    this.email = email;
+    this.password = password;
+    this.role = role;
+  }
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
