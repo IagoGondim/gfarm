@@ -12,18 +12,18 @@ import lombok.Setter;
 @AllArgsConstructor
 public class FazendaDTO {
 
-    private Long id;
-    private String nome;
-    private int areaTotal;
-    private UsuarioDTO usuario;
+  private Long id;
+  private String nome;
+  private int areaTotal;
+  private UsuarioDTO usuario;
 
-    public static FazendaDTO fromEntity(Fazenda fazenda) {
-        return new FazendaDTO(
-                fazenda.getId(),
-                fazenda.getNome(),
-                fazenda.getAreaTotal(),
-                UsuarioDTO.fromEntity(fazenda.getUsuario())
+  public static FazendaDTO fromEntity(Fazenda fazenda) {
+    return new FazendaDTO(
+            fazenda.getId(),
+            fazenda.getNome(),
+            fazenda.getAreaTotal(),
+            UsuarioDTO.fromEntity(fazenda.getUsuario())
 
-        );
-    }
+    );
+  }
 }

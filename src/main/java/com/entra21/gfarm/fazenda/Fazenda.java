@@ -1,5 +1,6 @@
 package com.entra21.gfarm.fazenda;
 
+import com.entra21.gfarm.funcionario.Funcionario;
 import com.entra21.gfarm.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -32,4 +33,8 @@ public class Fazenda {
 //  @OneToOne(cascade = CascadeType.ALL)
 //  @JoinColumn(name = "endereco_id", referencedColumnName = "id")
 //  private Endereco endereco;
+
+  @ManyToOne
+  @JoinColumn(name = "funcionario_id", referencedColumnName = "id")
+  private Funcionario funcionario;
 }

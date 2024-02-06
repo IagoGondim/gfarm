@@ -46,7 +46,7 @@ public class FuncionarioService {
     }
 
     private Funcionario convertToEntity(FuncionarioDTO funcionarioDTO) {
-        Funcionario funcionario = new Funcionario(0, null, null, null);
+        Funcionario funcionario = new Funcionario();
         funcionario.setId(funcionarioDTO.getId());
         funcionario.setNome(funcionarioDTO.getNome());
         funcionario.setCargo(funcionarioDTO.getCargo());
