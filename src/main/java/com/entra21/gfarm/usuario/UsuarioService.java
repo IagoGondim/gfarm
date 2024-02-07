@@ -28,15 +28,12 @@ public class UsuarioService {
   }
 
   public Usuario obterUsuarioAutenticado() {
-    // Obtém a autenticação do contexto de segurança do Spring Security
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-    // Verifica se a autenticação não é nula e se possui um principal
     if (authentication != null && authentication.getPrincipal() instanceof Usuario) {
       return (Usuario) authentication.getPrincipal();
     }
 
-    // Retorna null se não houver usuário autenticado
     return null;
   }
 }

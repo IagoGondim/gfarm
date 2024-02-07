@@ -1,5 +1,6 @@
 package com.entra21.gfarm.fazenda;
 
+import com.entra21.gfarm.endereco.EnderecoDTO;
 import com.entra21.gfarm.usuario.UsuarioDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,12 +18,15 @@ public class FazendaDTO {
   private int areaTotal;
   private UsuarioDTO usuario;
 
+  private EnderecoDTO endereco;
+
   public static FazendaDTO fromEntity(Fazenda fazenda) {
     return new FazendaDTO(
             fazenda.getId(),
             fazenda.getNome(),
             fazenda.getAreaTotal(),
-            UsuarioDTO.fromEntity(fazenda.getUsuario())
+            UsuarioDTO.fromEntity(fazenda.getUsuario()),
+            EnderecoDTO.fromEntity(fazenda.getEndereco())
 
     );
   }

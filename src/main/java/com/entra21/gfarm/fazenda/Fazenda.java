@@ -1,5 +1,6 @@
 package com.entra21.gfarm.fazenda;
 
+import com.entra21.gfarm.endereco.Endereco;
 import com.entra21.gfarm.funcionario.Funcionario;
 import com.entra21.gfarm.usuario.Usuario;
 import jakarta.persistence.*;
@@ -30,9 +31,10 @@ public class Fazenda {
   @JoinColumn(name = "usuario_id", referencedColumnName = "id")
   private Usuario usuario;
 
-//  @OneToOne(cascade = CascadeType.ALL)
-//  @JoinColumn(name = "endereco_id", referencedColumnName = "id")
-//  private Endereco endereco;
+
+  @OneToOne(mappedBy = "fazenda")
+  private Endereco endereco;
+
 
   @ManyToOne
   @JoinColumn(name = "funcionario_id", referencedColumnName = "id")
