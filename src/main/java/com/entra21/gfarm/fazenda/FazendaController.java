@@ -13,13 +13,13 @@ public class FazendaController {
 
   @Autowired
   private FazendaService fazendaService;
-
+  @CrossOrigin(origins = "http://127.0.0.1:5500")
   @PostMapping
   public ResponseEntity<FazendaDTO> criarFazenda(@RequestBody FazendaDTO fazendaDTO) {
     FazendaDTO novaFazendaDTO = fazendaService.criarFazendaDTO(fazendaDTO);
     return ResponseEntity.ok().body(novaFazendaDTO);
   }
-
+  @CrossOrigin(origins = "http://127.0.0.1:5500")
   @GetMapping
   public ResponseEntity<List<FazendaDTO>> listarFazendas() {
     List<FazendaDTO> fazendasDTO = fazendaService.listarFazendas();

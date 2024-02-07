@@ -25,6 +25,7 @@ public class UsuarioController {
     return ResponseEntity.ok(usuario);
   }
 
+  @CrossOrigin(origins = "http://127.0.0.1:5500")
   @PostMapping
   public ResponseEntity<Usuario> criarUsuario(@RequestBody Usuario usuario) {
     Usuario novoUsuario = usuarioService.criarUsuario(usuario);

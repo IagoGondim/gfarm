@@ -1,5 +1,6 @@
 package com.entra21.gfarm.usuario;
 
+import com.entra21.gfarm.fazenda.Fazenda;
 import com.entra21.gfarm.fazenda.FazendaDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,8 +9,8 @@ import lombok.Setter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,22 +31,17 @@ public class UsuarioDTO {
     }
 
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    boolean isAuthenticated = authentication != null && authentication.isAuthenticated();
 
-    if (authentication != null && authentication.isAuthenticated()) {
-      String username = authentication.getName();
-
-      Set<FazendaDTO> fazendasDTO = usuario.getFazendas().stream()
-              .map(FazendaDTO::fromEntity)
-              .collect(Collectors.toSet());
-
-      return new UsuarioDTO(
-              usuario.getId(),
-              usuario.getNome(),
-              usuario.getCpf(),
-              usuario.getEmail(),
-              fazendasDTO,
-              usuario.getRole()
-      );
+    Set<FazendaDTO> fazendasDTO = new HashSet<>();
+    if (isAuthenticated) {
+      for (Fazenda fazenda : usuario.getFazendas()) {
+        FazendaDTO fazendaDTO = new FazendaDTO();
+        fazendaDTO.setId(fazenda.getId());
+        fazendaDTO.setNome(fazenda.getNome());
+        fazendaDTO.setAreaTotal(fazenda.getAreaTotal());
+        fazendasDTO.add(fazendaDTO);
+      }
     }
 
     return new UsuarioDTO(
@@ -53,7 +49,7 @@ public class UsuarioDTO {
             usuario.getNome(),
             usuario.getCpf(),
             usuario.getEmail(),
-            null,
+            fazendasDTO,
             usuario.getRole()
     );
   }

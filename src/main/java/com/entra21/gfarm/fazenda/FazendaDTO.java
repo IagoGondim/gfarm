@@ -17,17 +17,19 @@ public class FazendaDTO {
   private String nome;
   private int areaTotal;
   private UsuarioDTO usuario;
-
   private EnderecoDTO endereco;
 
   public static FazendaDTO fromEntity(Fazenda fazenda) {
+    if (fazenda == null) {
+      return null;
+    }
+
     return new FazendaDTO(
             fazenda.getId(),
             fazenda.getNome(),
             fazenda.getAreaTotal(),
             UsuarioDTO.fromEntity(fazenda.getUsuario()),
             EnderecoDTO.fromEntity(fazenda.getEndereco())
-
     );
   }
 }

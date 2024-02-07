@@ -6,10 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
 @RestController
@@ -21,7 +18,7 @@ public class AuthenticationController {
   private UsuarioRepository usuarioRepository;
   @Autowired
   private TokenService tokenService;
-
+  @CrossOrigin(origins = "http://127.0.0.1:5500")
   @PostMapping("/login")
   public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){
     var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
@@ -31,7 +28,7 @@ public class AuthenticationController {
 
     return ResponseEntity.ok(new LoginResponseDTO(token));
   }
-
+  @CrossOrigin(origins = "http://127.0.0.1:5500")
   @PostMapping("/register")
   public ResponseEntity register(@RequestBody @Valid RegisterDTO data){
     if(this.usuarioRepository.findByEmail(data.email()) != null) return ResponseEntity.badRequest().build();

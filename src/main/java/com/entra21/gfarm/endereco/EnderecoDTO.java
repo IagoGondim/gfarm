@@ -12,11 +12,16 @@ public class EnderecoDTO {
   private String cidade;
 
   public static EnderecoDTO fromEntity(Endereco endereco) {
+    if (endereco == null) {
+      return null;
+    }
+
     EnderecoDTO enderecoDTO = new EnderecoDTO();
     enderecoDTO.setLogradouro(endereco.getLogradouro());
     enderecoDTO.setNumero(endereco.getNumero());
     enderecoDTO.setBairro(endereco.getBairro());
     enderecoDTO.setCidade(endereco.getCidade());
+
     return enderecoDTO;
   }
 }
