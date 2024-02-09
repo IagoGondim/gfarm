@@ -1,7 +1,7 @@
 package com.entra21.gfarm.usuario;
 
-import com.entra21.gfarm.fazenda.Fazenda;
-import com.entra21.gfarm.fazenda.FazendaDTO;
+import com.entra21.gfarm.model.Fazenda;
+import com.entra21.gfarm.dto.FazendaDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

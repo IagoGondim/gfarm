@@ -1,8 +1,7 @@
 package com.entra21.gfarm.usuario;
 
 
-import com.entra21.gfarm.fazenda.Fazenda;
-import com.entra21.gfarm.role.Role;
+import com.entra21.gfarm.model.Fazenda;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
