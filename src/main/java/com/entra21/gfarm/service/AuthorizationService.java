@@ -1,7 +1,7 @@
 package com.entra21.gfarm.service;
 
 
-import com.entra21.gfarm.usuario.UsuarioRepository;
+import com.entra21.gfarm.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

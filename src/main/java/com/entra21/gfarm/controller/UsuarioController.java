@@ -1,5 +1,7 @@
-package com.entra21.gfarm.usuario;
+package com.entra21.gfarm.controller;
 
+import com.entra21.gfarm.model.Usuario;
+import com.entra21.gfarm.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

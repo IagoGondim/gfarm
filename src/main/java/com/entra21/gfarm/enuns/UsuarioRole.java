@@ -1,4 +1,4 @@
-package com.entra21.gfarm.usuario;
+package com.entra21.gfarm.enuns;
 
 public enum UsuarioRole {
   ADMIN("admin"),

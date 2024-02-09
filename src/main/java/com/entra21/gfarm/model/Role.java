@@ -1,4 +1,4 @@
-package com.entra21.gfarm.role;
+package com.entra21.gfarm.model;
 
 
 import jakarta.persistence.*;

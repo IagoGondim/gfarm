@@ -1,5 +1,7 @@
-package com.entra21.gfarm.usuario;
+package com.entra21.gfarm.service;
 
+import com.entra21.gfarm.model.Usuario;
+import com.entra21.gfarm.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

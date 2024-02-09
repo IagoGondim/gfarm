@@ -1,6 +1,7 @@
-package com.entra21.gfarm.usuario;
+package com.entra21.gfarm.repository;
 
 
+import com.entra21.gfarm.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 

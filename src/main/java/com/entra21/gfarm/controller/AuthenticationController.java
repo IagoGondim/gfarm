@@ -1,5 +1,10 @@
-package com.entra21.gfarm.usuario;
+package com.entra21.gfarm.controller;
 
+import com.entra21.gfarm.dto.AuthenticationDTO;
+import com.entra21.gfarm.dto.LoginResponseDTO;
+import com.entra21.gfarm.dto.RegisterDTO;
+import com.entra21.gfarm.model.Usuario;
+import com.entra21.gfarm.repository.UsuarioRepository;
 import com.entra21.gfarm.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
