@@ -1,52 +1,60 @@
 package com.entra21.gfarm.service;
 
-import java.util.List;
-import java.util.Optional;
-
 import com.entra21.gfarm.dto.AtividadeAgricolaDTO;
 import com.entra21.gfarm.model.AtividadeAgricola;
+import com.entra21.gfarm.model.Funcionario;
 import com.entra21.gfarm.repository.AtividadeAgricolaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.entra21.gfarm.repository.FuncionarioRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AtividadeAgricolaService {
 
-    private final AtividadeAgricolaRepository atividadeAgricolaRepository;
+  private final AtividadeAgricolaRepository atividadeAgricolaRepository;
 
-    @Autowired
-    public AtividadeAgricolaService(AtividadeAgricolaRepository atividadeAgricolaRepository) {
-        this.atividadeAgricolaRepository = atividadeAgricolaRepository;
-    }
+  private final FuncionarioRepository funcionarioRepository;
 
-    public List<AtividadeAgricola> getAllAtividadesAgricolas() {
-        return atividadeAgricolaRepository.findAll();
-    }
+  public AtividadeAgricolaService(AtividadeAgricolaRepository atividadeAgricolaRepository, FuncionarioRepository funcionarioRepository) {
+    this.atividadeAgricolaRepository = atividadeAgricolaRepository;
+    this.funcionarioRepository = funcionarioRepository;
+  }
 
-    public Optional<AtividadeAgricola> getAtividadeAgricolaById(int id) {
-        return atividadeAgricolaRepository.findById((long) id);
-    }
+  public List<AtividadeAgricolaDTO> getAllAtividadesAgricolas() {
+    List<AtividadeAgricola> atividadesAgricolas = atividadeAgricolaRepository.findAll();
+    return atividadesAgricolas.stream()
+            .map(this::convertAtividadeAgricolaToDTO)
+            .collect(Collectors.toList());
+  }
 
-    public AtividadeAgricola createAtividadeAgricola(AtividadeAgricolaDTO atividadeAgricolaDTO) {
-        AtividadeAgricola atividadeAgricola = new AtividadeAgricola();
-        atividadeAgricola.setDescricao(atividadeAgricolaDTO.getDescricao());
-        atividadeAgricola.setDataDaAtividade(atividadeAgricolaDTO.getDataDaAtividade());
-        return atividadeAgricolaRepository.save(atividadeAgricola);
-    }
 
-    public AtividadeAgricola updateAtividadeAgricola(int id, AtividadeAgricolaDTO atividadeAgricolaDTO) {
-        Optional<AtividadeAgricola> optionalAtividadeAgricola = atividadeAgricolaRepository.findById((long) id);
-        if (optionalAtividadeAgricola.isPresent()) {
-            AtividadeAgricola atividadeAgricola = optionalAtividadeAgricola.get();
-            atividadeAgricola.setDescricao(atividadeAgricolaDTO.getDescricao());
-            atividadeAgricola.setDataDaAtividade(atividadeAgricolaDTO.getDataDaAtividade());
-            return atividadeAgricolaRepository.save(atividadeAgricola);
-        } else {
-            return null;
-        }
+  public AtividadeAgricola createAtividadeAgricola(AtividadeAgricolaDTO atividadeAgricolaDTO, List<Long> funcionarioIds) {
+    AtividadeAgricola atividadeAgricola = convertAtividadeAgricolaToEntity(atividadeAgricolaDTO);
+    if (funcionarioIds != null && !funcionarioIds.isEmpty()) {
+      List<Funcionario> funcionarios = funcionarioRepository.findAllById(funcionarioIds);
+      atividadeAgricola.setFuncionarios(new HashSet<>(funcionarios));
     }
+    return atividadeAgricolaRepository.save(atividadeAgricola);
+  }
 
-    public void deleteAtividadeAgricola(int id) {
-        atividadeAgricolaRepository.deleteById((long) id);
-    }
+  private AtividadeAgricolaDTO convertAtividadeAgricolaToDTO(AtividadeAgricola atividadeAgricola) {
+    AtividadeAgricolaDTO atividadeAgricolaDTO = new AtividadeAgricolaDTO();
+    atividadeAgricolaDTO.setId(atividadeAgricola.getId());
+    atividadeAgricolaDTO.setTitulo(atividadeAgricola.getTitulo());
+    atividadeAgricolaDTO.setDescricao(atividadeAgricola.getDescricao());
+    atividadeAgricolaDTO.setDataDaAtividade(atividadeAgricola.getDataDaAtividade());
+    return atividadeAgricolaDTO;
+  }
+
+  private AtividadeAgricola convertAtividadeAgricolaToEntity(AtividadeAgricolaDTO atividadeAgricolaDTO) {
+    AtividadeAgricola atividadeAgricola = new AtividadeAgricola();
+    atividadeAgricola.setId(atividadeAgricolaDTO.getId());
+    atividadeAgricola.setTitulo(atividadeAgricolaDTO.getTitulo());
+    atividadeAgricola.setDescricao(atividadeAgricolaDTO.getDescricao());
+    atividadeAgricola.setDataDaAtividade(atividadeAgricolaDTO.getDataDaAtividade());
+    return atividadeAgricola;
+  }
 }

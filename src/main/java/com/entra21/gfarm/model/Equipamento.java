@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
-
 @Entity
 @Table(name = "tb_equipamento")
 @AllArgsConstructor
@@ -25,9 +23,6 @@ public class Equipamento {
   private String descricao;
   @Column
   private java.sql.Timestamp dataDeCompra;
-
-  @OneToMany(mappedBy = "equipamento", cascade = CascadeType.ALL)
-  private Set<AtividadeAgricola> atividadesAgricolas;
 
 
 }

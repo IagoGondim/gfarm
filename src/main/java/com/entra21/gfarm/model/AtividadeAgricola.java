@@ -1,23 +1,14 @@
 package com.entra21.gfarm.model;
 
-import java.sql.Timestamp;
-
-
-import com.entra21.gfarm.model.Equipamento;
-import com.entra21.gfarm.model.Funcionario;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_atividadeAgricola")
@@ -26,21 +17,26 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AtividadeAgricola {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-	@Column
-    private String descricao;
-	@Column
-    private Timestamp dataDaAtividade;
-    
-    @OneToOne(mappedBy = "atividadeAgricola")
-    private Funcionario funcionario;
-    
-    @ManyToOne
-    @JoinColumn(name = "equipamento_id")
-    private Equipamento equipamento;
-    
 
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
+  @Column
+  private String titulo;
+
+  @Column
+  private String descricao;
+
+  @Column
+  private Timestamp dataDaAtividade;
+
+  @ManyToMany
+  @JoinTable(
+          name = "atividade_agricola_funcionario",
+          joinColumns = @JoinColumn(name = "atividade_agricola_id"),
+          inverseJoinColumns = @JoinColumn(name = "funcionario_id")
+  )
+  private Set<Funcionario> funcionarios = new HashSet<>();
 }
+

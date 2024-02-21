@@ -1,4 +1,4 @@
-package com.entra21.gfarm.service;
+package com.entra21.gfarm.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

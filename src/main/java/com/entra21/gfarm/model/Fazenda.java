@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "tb_fazenda")
 @AllArgsConstructor
@@ -28,12 +30,9 @@ public class Fazenda {
   @JoinColumn(name = "usuario_id", referencedColumnName = "id")
   private Usuario usuario;
 
-
   @OneToOne(mappedBy = "fazenda")
   private Endereco endereco;
 
-
-  @ManyToOne
-  @JoinColumn(name = "funcionario_id", referencedColumnName = "id")
-  private Funcionario funcionario;
+  @OneToMany(mappedBy = "fazenda", cascade = CascadeType.ALL)
+  private Set<Funcionario> funcionarios;
 }

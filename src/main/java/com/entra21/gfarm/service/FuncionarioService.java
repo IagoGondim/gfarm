@@ -1,59 +1,55 @@
 package com.entra21.gfarm.service;
 
+import com.entra21.gfarm.dto.FuncionarioDTO;
+import com.entra21.gfarm.model.Funcionario;
+import com.entra21.gfarm.repository.FuncionarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.entra21.gfarm.dto.FuncionarioDTO;
-import com.entra21.gfarm.model.Funcionario;
-import com.entra21.gfarm.repository.FuncionarioRepository;
-import org.springframework.stereotype.Service;
-
-@Service 
+@Service
 public class FuncionarioService {
-	
-	private final FuncionarioRepository funcionarioRepository;
 
-    public FuncionarioService(FuncionarioRepository funcionarioRepository) {
-        this.funcionarioRepository = funcionarioRepository;
-    }
+  private final FuncionarioRepository funcionarioRepository;
 
-    public Optional<FuncionarioDTO> findById(int id) {
-        Optional<Funcionario> optionalFuncionario = funcionarioRepository.findById((long) id);
-        return optionalFuncionario.map(FuncionarioService::convertToDTO);
-    }
+  @Autowired
+  public FuncionarioService(FuncionarioRepository funcionarioRepository) {
+    this.funcionarioRepository = funcionarioRepository;
+  }
 
-    public List<FuncionarioDTO> findAll() {
-        List<Funcionario> funcionarios = funcionarioRepository.findAll();
-        return funcionarios.stream()
-                .map(FuncionarioService::convertToDTO)
-                .collect(Collectors.toList());
-    }
+  @Transactional(readOnly = true)
+  public List<FuncionarioDTO> getAllFuncionarios() {
+    List<Funcionario> funcionarios = funcionarioRepository.findAll();
+    return funcionarios.stream()
+            .map(FuncionarioDTO::fromEntity)
+            .collect(Collectors.toList());
+  }
 
-    public void save(FuncionarioDTO funcionarioDTO) {
-        Funcionario funcionario = convertToEntity(funcionarioDTO);
-        funcionarioRepository.save(funcionario);
-    }
+  @Transactional(readOnly = true)
+  public FuncionarioDTO getFuncionarioById(Long id) {
+    Optional<Funcionario> optionalFuncionario = funcionarioRepository.findById(id);
+    return optionalFuncionario.map(FuncionarioDTO::fromEntity).orElse(null);
+  }
 
-    public void deleteById(int id) {
-        funcionarioRepository.deleteById((long) id);
-    }
+  @Transactional
+  public FuncionarioDTO addFuncionario(FuncionarioDTO funcionarioDTO) {
+    Funcionario funcionario = FuncionarioDTO.toEntity(funcionarioDTO);
+    funcionario = funcionarioRepository.save(funcionario);
+    return FuncionarioDTO.fromEntity(funcionario);
+  }
 
-    private static FuncionarioDTO convertToDTO(Funcionario funcionario) {
-        FuncionarioDTO funcionarioDTO = new FuncionarioDTO();
-        funcionarioDTO.setId(funcionario.getId());
-        funcionarioDTO.setNome(funcionario.getNome());
-        funcionarioDTO.setCargo(funcionario.getCargo());
-        funcionarioDTO.setDataContratacao(funcionario.getDataContratacao());
-        return funcionarioDTO;
+  @Transactional
+  public boolean deleteFuncionario(Long id) {
+    Optional<Funcionario> optionalFuncionario = funcionarioRepository.findById(id);
+    if (optionalFuncionario.isPresent()) {
+      funcionarioRepository.deleteById(id);
+      return true;
+    } else {
+      return false;
     }
-
-    private Funcionario convertToEntity(FuncionarioDTO funcionarioDTO) {
-        Funcionario funcionario = new Funcionario();
-        funcionario.setId(funcionarioDTO.getId());
-        funcionario.setNome(funcionarioDTO.getNome());
-        funcionario.setCargo(funcionarioDTO.getCargo());
-        funcionario.setDataContratacao(funcionarioDTO.getDataContratacao());
-        return funcionario;
-    }
+  }
 }

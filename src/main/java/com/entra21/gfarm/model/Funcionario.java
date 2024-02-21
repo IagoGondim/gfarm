@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -19,22 +20,29 @@ public class Funcionario {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
+  private Long id;
+
   @Column
   private String nome;
+
   @Column
   private String cargo;
+
   @Column
   private int salario;
+
   @Column
   private Timestamp dataContratacao;
 
-  @OneToMany(mappedBy = "funcionario", cascade = CascadeType.ALL)
-  private Set<Fazenda> fazendas;
+  @ManyToOne
+  @JoinColumn(name = "fazenda_id", referencedColumnName = "id")
+  private Fazenda fazenda;
 
-  @OneToOne
-  @JoinColumn(name = "atividade_agricola_id")
-  private AtividadeAgricola atividadeAgricola;
-
-
+  @ManyToMany
+  @JoinTable(
+          name = "funcionario_atividade",
+          joinColumns = @JoinColumn(name = "funcionario_id"),
+          inverseJoinColumns = @JoinColumn(name = "atividade_id")
+  )
+  private Set<AtividadeAgricola> atividades = new HashSet<>(); // Inicializa com HashSet
 }
