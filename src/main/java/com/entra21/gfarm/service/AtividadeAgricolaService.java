@@ -45,7 +45,8 @@ public class AtividadeAgricolaService {
     atividadeAgricolaDTO.setId(atividadeAgricola.getId());
     atividadeAgricolaDTO.setTitulo(atividadeAgricola.getTitulo());
     atividadeAgricolaDTO.setDescricao(atividadeAgricola.getDescricao());
-    atividadeAgricolaDTO.setDataDaAtividade(atividadeAgricola.getDataDaAtividade());
+    atividadeAgricolaDTO.setData(atividadeAgricola.getData());
+    atividadeAgricolaDTO.setHora(atividadeAgricola.getHora());
     return atividadeAgricolaDTO;
   }
 
@@ -54,7 +55,8 @@ public class AtividadeAgricolaService {
     atividadeAgricola.setId(atividadeAgricolaDTO.getId());
     atividadeAgricola.setTitulo(atividadeAgricolaDTO.getTitulo());
     atividadeAgricola.setDescricao(atividadeAgricolaDTO.getDescricao());
-    atividadeAgricola.setDataDaAtividade(atividadeAgricolaDTO.getDataDaAtividade());
+    atividadeAgricola.setData(atividadeAgricolaDTO.getData());
+    atividadeAgricola.setHora(atividadeAgricolaDTO.getHora());
     return atividadeAgricola;
   }
 }

@@ -1,22 +1,19 @@
 package com.entra21.gfarm.dto;
 
+import com.entra21.gfarm.model.Fazenda;
 import com.entra21.gfarm.model.Funcionario;
-import com.entra21.gfarm.model.Fazenda; // Importe a classe Fazenda
-import lombok.*;
+import lombok.Data;
 
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 public class FuncionarioDTO {
   private Long id;
   private String nome;
   private String cargo;
-  private int salario;
+  private Integer salario;
   private Timestamp dataContratacao;
   private Long fazendaId;
   private List<Long> atividadesIds;
@@ -35,8 +32,8 @@ public class FuncionarioDTO {
     if (funcionario.getFazenda() != null) {
       dto.setFazendaId(funcionario.getFazenda().getId());
     }
-    if (funcionario.getAtividades() != null) {
-      dto.setAtividadesIds(funcionario.getAtividades().stream()
+    if (funcionario.getAtividadesAgricolas() != null) {
+      dto.setAtividadesIds(funcionario.getAtividadesAgricolas().stream()
               .map(atividade -> atividade != null ? atividade.getId() : null)
               .collect(Collectors.toList()));
     }

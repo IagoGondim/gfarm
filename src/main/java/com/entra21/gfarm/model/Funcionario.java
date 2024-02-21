@@ -38,11 +38,6 @@ public class Funcionario {
   @JoinColumn(name = "fazenda_id", referencedColumnName = "id")
   private Fazenda fazenda;
 
-  @ManyToMany
-  @JoinTable(
-          name = "funcionario_atividade",
-          joinColumns = @JoinColumn(name = "funcionario_id"),
-          inverseJoinColumns = @JoinColumn(name = "atividade_id")
-  )
-  private Set<AtividadeAgricola> atividades = new HashSet<>(); // Inicializa com HashSet
+  @ManyToMany(mappedBy = "funcionarios")
+  private Set<AtividadeAgricola> atividadesAgricolas = new HashSet<>();
 }

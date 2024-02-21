@@ -1,12 +1,13 @@
 package com.entra21.gfarm.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,7 +30,12 @@ public class AtividadeAgricola {
   private String descricao;
 
   @Column
-  private Timestamp dataDaAtividade;
+  @JsonFormat(pattern = "yyyy-MM-dd")
+  private Date data;
+
+  @Column
+  @JsonFormat(pattern = "HH:mm:ss")
+  private Date hora;
 
   @ManyToMany
   @JoinTable(
