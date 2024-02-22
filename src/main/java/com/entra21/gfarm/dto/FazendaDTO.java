@@ -27,8 +27,8 @@ public class FazendaDTO {
     }
 
     Set<FuncionarioDTO> funcionariosDTO = null;
-    if (fazenda.getFuncionarios() != null) {
-      funcionariosDTO = fazenda.getFuncionarios().stream()
+    if (fazenda.getFuncionario() != null) {
+      funcionariosDTO = fazenda.getFuncionario().stream()
               .map(FuncionarioDTO::fromEntity) // Utilize uma expressão lambda
               .collect(Collectors.toSet());
     }

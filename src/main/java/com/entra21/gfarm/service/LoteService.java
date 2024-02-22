@@ -1,38 +1,83 @@
 package com.entra21.gfarm.service;
 
 import com.entra21.gfarm.dto.LoteDTO;
+import com.entra21.gfarm.model.Fazenda;
 import com.entra21.gfarm.model.Lote;
 import com.entra21.gfarm.repository.LoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class LoteService {
 
-    @Autowired
-    private LoteRepository loteRepository;
+  private final LoteRepository loteRepository;
 
-    public Set<LoteDTO> listarLotesDTO() {
-        Set<Lote> lotes = new HashSet<>(loteRepository.findAll());
-        return lotes.stream().map(LoteDTO::fromEntity).collect(Collectors.toSet());
+  @Autowired
+  public LoteService(LoteRepository loteRepository) {
+    this.loteRepository = loteRepository;
+  }
+
+  @Transactional(readOnly = true)
+  public List<LoteDTO> getAllLotes() {
+    List<Lote> lotes = loteRepository.findAll();
+    return lotes.stream()
+            .map(this::convertToDTO)
+            .collect(Collectors.toList());
+  }
+
+  @Transactional(readOnly = true)
+  public LoteDTO getLoteById(Long id) {
+    Optional<Lote> optionalLote = loteRepository.findById(id);
+    return optionalLote.map(this::convertToDTO).orElse(null);
+  }
+
+  @Transactional
+  public LoteDTO addLote(LoteDTO loteDTO) {
+    Lote lote = convertToEntity(loteDTO);
+    lote = loteRepository.save(lote);
+    return convertToDTO(lote);
+  }
+
+  @Transactional
+  public boolean deleteLote(Long id) {
+    Optional<Lote> optionalLote = loteRepository.findById(id);
+    if (optionalLote.isPresent()) {
+      loteRepository.deleteById(id);
+      return true;
+    } else {
+      return false;
     }
+  }
 
-    public LoteDTO obterLoteDTOPorId(Long id) {
-        Lote lote = loteRepository.findById(id).orElse(null);
-        return (lote != null) ? LoteDTO.fromEntity(lote) : null;
+  private LoteDTO convertToDTO(Lote lote) {
+    LoteDTO dto = new LoteDTO();
+    dto.setId(lote.getId());
+    dto.setNome(lote.getNome());
+    dto.setAreaTotalLote(lote.getAreaTotalLote());
+    dto.setTipoDeSolo(lote.getTipoDeSolo());
+    if (lote.getFazenda() != null) {
+      dto.setFazendaId(lote.getFazenda().getId());
     }
+    return dto;
+  }
 
-    public LoteDTO criarLoteDTO(LoteDTO loteDTO) {
-        Lote lote = new Lote();
-        lote.setNome(loteDTO.getNome());
-        lote.setAreaTotal(loteDTO.getAreaTotal());
-        lote.setTipoDeSolo(loteDTO.getTipoDeSolo());
-        Lote novaLote = loteRepository.save(lote);
-        return LoteDTO.fromEntity(novaLote);
+  private Lote convertToEntity(LoteDTO dto) {
+    Lote lote = new Lote();
+    lote.setId(dto.getId());
+    lote.setNome(dto.getNome());
+    lote.setAreaTotalLote(dto.getAreaTotalLote());
+    lote.setTipoDeSolo(dto.getTipoDeSolo());
+    // Definindo a fazenda do lote
+    if (dto.getFazendaId() != null) {
+      Fazenda fazenda = new Fazenda();
+      fazenda.setId(dto.getFazendaId());
+      lote.setFazenda(fazenda);
     }
-
+    return lote;
+  }
 }

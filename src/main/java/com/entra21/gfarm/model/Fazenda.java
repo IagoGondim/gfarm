@@ -34,8 +34,11 @@ public class Fazenda {
   private Endereco endereco;
 
   @OneToMany(mappedBy = "fazenda", cascade = CascadeType.ALL)
-  private Set<Funcionario> funcionarios;
+  private Set<Funcionario> funcionario;
 
   @OneToMany(mappedBy = "fazenda", cascade = CascadeType.ALL)
-  private Set<Insumo> insumos;
+  private Set<Insumo> insumo;
+
+  @OneToMany(mappedBy = "fazenda", cascade = CascadeType.ALL)
+  private Set<Lote> lote;
 }

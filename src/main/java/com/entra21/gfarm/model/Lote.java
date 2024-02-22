@@ -23,7 +23,7 @@ public class Lote {
     private String nome;
 
     @Column
-    private int areaTotal;
+    private int areaTotalLote;
 
     @Column
     private String tipoDeSolo;
