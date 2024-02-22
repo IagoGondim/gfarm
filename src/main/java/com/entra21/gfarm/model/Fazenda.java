@@ -35,4 +35,7 @@ public class Fazenda {
 
   @OneToMany(mappedBy = "fazenda", cascade = CascadeType.ALL)
   private Set<Funcionario> funcionarios;
+
+  @OneToMany(mappedBy = "fazenda", cascade = CascadeType.ALL)
+  private Set<Insumo> insumos;
 }

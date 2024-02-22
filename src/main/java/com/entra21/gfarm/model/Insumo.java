@@ -6,17 +6,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
-
 @Entity
-@Table(name = "tb_funcionario")
+@Table(name = "tb_insumos")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Funcionario {
+public class Insumo {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,18 +22,15 @@ public class Funcionario {
   private String nome;
 
   @Column
-  private String cargo;
+  private String tipo;
 
   @Column
-  private int salario;
+  private Integer quantidadeDisponivel;
 
   @Column
-  private Timestamp dataContratacao;
+  private Double precoUnitario;
 
   @ManyToOne
   @JoinColumn(name = "fazenda_id", referencedColumnName = "id")
   private Fazenda fazenda;
-
-  @ManyToMany(fetch = FetchType.LAZY, mappedBy = "funcionarios")
-  private Set<AtividadeAgricola> atividadesAgricolas = new HashSet<>();
 }

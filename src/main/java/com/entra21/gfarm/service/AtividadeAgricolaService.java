@@ -47,6 +47,9 @@ public class AtividadeAgricolaService {
     atividadeAgricolaDTO.setDescricao(atividadeAgricola.getDescricao());
     atividadeAgricolaDTO.setData(atividadeAgricola.getData());
     atividadeAgricolaDTO.setHora(atividadeAgricola.getHora());
+    atividadeAgricolaDTO.setFuncionarioIds(atividadeAgricola.getFuncionarios().stream()
+            .map(Funcionario::getId)
+            .collect(Collectors.toList()));
     return atividadeAgricolaDTO;
   }
 
@@ -57,6 +60,11 @@ public class AtividadeAgricolaService {
     atividadeAgricola.setDescricao(atividadeAgricolaDTO.getDescricao());
     atividadeAgricola.setData(atividadeAgricolaDTO.getData());
     atividadeAgricola.setHora(atividadeAgricolaDTO.getHora());
+    if (atividadeAgricolaDTO.getFuncionarioIds() != null) {
+      List<Funcionario> funcionarios = funcionarioRepository.findAllById(atividadeAgricolaDTO.getFuncionarioIds());
+      atividadeAgricola.setFuncionarios(new HashSet<>(funcionarios));
+    }
     return atividadeAgricola;
   }
+
 }

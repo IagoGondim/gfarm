@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -20,5 +21,5 @@ public class AtividadeAgricolaDTO {
   @JsonFormat(pattern = "HH:mm:ss")
   private Date hora;
 
-  private Set<FuncionarioDTO> funcionarios = new HashSet<>();
+  private List<Long> funcionarioIds;
 }

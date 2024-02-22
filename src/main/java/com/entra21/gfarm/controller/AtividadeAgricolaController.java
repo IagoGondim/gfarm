@@ -33,9 +33,4 @@ public class AtividadeAgricolaController {
     AtividadeAgricola atividadeSalva = atividadeAgricolaService.createAtividadeAgricola(atividadeAgricolaDTO, funcionarioIds);
     return ResponseEntity.ok().body(atividadeSalva);
   }
-
-
-
-
-
 }

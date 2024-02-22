@@ -37,7 +37,7 @@ public class AtividadeAgricola {
   @JsonFormat(pattern = "HH:mm:ss")
   private Date hora;
 
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL) // Adicionado CascadeType.ALL
   @JoinTable(
           name = "atividade_agricola_funcionario",
           joinColumns = @JoinColumn(name = "atividade_agricola_id"),
