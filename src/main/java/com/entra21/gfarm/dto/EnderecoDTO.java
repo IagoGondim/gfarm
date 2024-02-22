@@ -1,12 +1,12 @@
 package com.entra21.gfarm.dto;
 
 import com.entra21.gfarm.model.Endereco;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class EnderecoDTO {
+
+  private Long id;
   private String logradouro;
   private int numero;
   private String bairro;
@@ -18,6 +18,7 @@ public class EnderecoDTO {
     }
 
     EnderecoDTO enderecoDTO = new EnderecoDTO();
+    enderecoDTO.setId(endereco.getId());
     enderecoDTO.setLogradouro(endereco.getLogradouro());
     enderecoDTO.setNumero(endereco.getNumero());
     enderecoDTO.setBairro(endereco.getBairro());

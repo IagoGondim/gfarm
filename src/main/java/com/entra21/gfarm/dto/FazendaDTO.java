@@ -19,7 +19,7 @@ public class FazendaDTO {
   private int areaTotal;
   private UsuarioDTO usuario;
   private EnderecoDTO endereco;
-  private Set<FuncionarioDTO> funcionarios; // Adicionando a lista de funcionários associados à fazenda
+  private Set<FuncionarioDTO> funcionarios;
 
   public static FazendaDTO fromEntity(Fazenda fazenda) {
     if (fazenda == null) {
@@ -29,7 +29,7 @@ public class FazendaDTO {
     Set<FuncionarioDTO> funcionariosDTO = null;
     if (fazenda.getFuncionario() != null) {
       funcionariosDTO = fazenda.getFuncionario().stream()
-              .map(FuncionarioDTO::fromEntity) // Utilize uma expressão lambda
+              .map(FuncionarioDTO::fromEntity)
               .collect(Collectors.toSet());
     }
 

@@ -22,8 +22,7 @@ public class Endereco {
   private String bairro;
   private String cidade;
 
-  @OneToOne
-  @JoinColumn(name = "fazenda_id", referencedColumnName = "id")
+  @OneToOne(mappedBy = "endereco", cascade = CascadeType.ALL)
   private Fazenda fazenda;
 
 }

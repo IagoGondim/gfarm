@@ -30,7 +30,8 @@ public class Fazenda {
   @JoinColumn(name = "usuario_id", referencedColumnName = "id")
   private Usuario usuario;
 
-  @OneToOne(mappedBy = "fazenda")
+  @OneToOne
+  @JoinColumn(name = "endereco_id", referencedColumnName = "id")
   private Endereco endereco;
 
   @OneToMany(mappedBy = "fazenda", cascade = CascadeType.ALL)
