@@ -16,13 +16,17 @@ public class Equipamento {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
+  private Long id;
   @Column
   private String nome;
   @Column
   private String descricao;
   @Column
   private java.sql.Timestamp dataDeCompra;
+  @ManyToOne
+  @JoinColumn(name = "fazenda_id", referencedColumnName = "id")
+  private Fazenda fazenda;
+
 
 
 }

@@ -43,6 +43,16 @@ public class InsumoController {
     return ResponseEntity.status(HttpStatus.CREATED).body(newInsumo);
   }
 
+  @PutMapping("/{id}")
+  public ResponseEntity<InsumoDTO> atualizarInsumo(@PathVariable Long id, @RequestBody InsumoDTO insumoDTO) {
+    InsumoDTO insumoAtualizado = insumoService.atualizarInsumo(id, insumoDTO);
+    if (insumoAtualizado != null) {
+      return ResponseEntity.ok(insumoAtualizado);
+    } else {
+      return ResponseEntity.notFound().build();
+    }
+  }
+
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deleteInsumo(@PathVariable Long id) {
     boolean deleted = insumoService.deleteInsumo(id);

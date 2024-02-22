@@ -43,6 +43,16 @@ public class FuncionarioController {
     return ResponseEntity.ok().body(novoFuncionario);
   }
 
+  @PutMapping("/{id}")
+  public ResponseEntity<FuncionarioDTO> atualizarFuncionario(@PathVariable Long id, @RequestBody FuncionarioDTO funcionarioDTO) {
+    FuncionarioDTO funcionarioAtualizado = funcionarioService.atualizarFuncionario(id, funcionarioDTO);
+    if (funcionarioAtualizado != null) {
+      return ResponseEntity.ok().body(funcionarioAtualizado);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+  }
+
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deleteFuncionario(@PathVariable Long id) {
     boolean deleted = funcionarioService.deleteFuncionario(id);

@@ -16,24 +16,31 @@ import java.util.Date;
 @Setter
 public class Cultivo {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column
-    private String nome;
+  @Column
+  private String nome;
 
-    @Column
-    private String descricao;
+  @Column
+  private String descricao;
 
-    @Temporal(TemporalType.DATE)
-    private Date dataDePlantio;
+  @Temporal(TemporalType.DATE)
+  private Date dataDePlantio;
 
-    @Temporal(TemporalType.DATE)
-    private Date dataColheitaPrevista;
+  @Temporal(TemporalType.DATE)
+  private Date dataColheitaPrevista;
 
-    @OneToOne
-    @JoinColumn(name = "lote_id", referencedColumnName = "id")
-    private Lote lote;
+  @Temporal(TemporalType.DATE)
+  private Date dataColheita;
+
+  @Column
+  private double quantidadeColhida;
+
+  @ManyToOne
+  @JoinColumn(name = "lote_id", referencedColumnName = "id")
+  private Lote lote;
+
 
 }

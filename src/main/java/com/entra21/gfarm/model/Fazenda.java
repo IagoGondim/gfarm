@@ -41,5 +41,8 @@ public class Fazenda {
   private Set<Insumo> insumo;
 
   @OneToMany(mappedBy = "fazenda", cascade = CascadeType.ALL)
+  private Set<Equipamento> equipamento;
+
+  @OneToMany(mappedBy = "fazenda", cascade = CascadeType.ALL)
   private Set<Lote> lote;
 }

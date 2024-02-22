@@ -44,6 +44,30 @@ public class LoteService {
   }
 
   @Transactional
+  public LoteDTO atualizarLote(Long id, LoteDTO loteDTO) {
+    Optional<Lote> optionalLote = loteRepository.findById(id);
+    if (optionalLote.isPresent()) {
+      Lote lote = optionalLote.get();
+      lote.setNome(loteDTO.getNome());
+      lote.setAreaTotalLote(loteDTO.getAreaTotalLote());
+      lote.setTipoDeSolo(loteDTO.getTipoDeSolo());
+
+      if (loteDTO.getFazendaId() != null) {
+        Fazenda fazenda = new Fazenda();
+        fazenda.setId(loteDTO.getFazendaId());
+        lote.setFazenda(fazenda);
+      } else {
+        lote.setFazenda(null);
+      }
+
+      lote = loteRepository.save(lote);
+      return convertToDTO(lote);
+    } else {
+      return null;
+    }
+  }
+
+  @Transactional
   public boolean deleteLote(Long id) {
     Optional<Lote> optionalLote = loteRepository.findById(id);
     if (optionalLote.isPresent()) {

@@ -42,6 +42,16 @@ public class LoteController {
     return ResponseEntity.status(HttpStatus.CREATED).body(newLote);
   }
 
+  @PutMapping("/{id}")
+  public ResponseEntity<LoteDTO> atualizarLote(@PathVariable Long id, @RequestBody LoteDTO loteDTO) {
+    LoteDTO loteAtualizado = loteService.atualizarLote(id, loteDTO);
+    if (loteAtualizado != null) {
+      return ResponseEntity.ok(loteAtualizado);
+    } else {
+      return ResponseEntity.notFound().build();
+    }
+  }
+
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deleteLote(@PathVariable Long id) {
     boolean deleted = loteService.deleteLote(id);

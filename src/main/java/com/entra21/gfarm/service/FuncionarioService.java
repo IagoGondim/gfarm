@@ -43,6 +43,23 @@ public class FuncionarioService {
   }
 
   @Transactional
+  public FuncionarioDTO atualizarFuncionario(Long id, FuncionarioDTO funcionarioDTO) {
+    Optional<Funcionario> funcionarioOptional = funcionarioRepository.findById(id);
+    if (funcionarioOptional.isPresent()) {
+      Funcionario funcionario = funcionarioOptional.get();
+      funcionario.setNome(funcionarioDTO.getNome());
+      funcionario.setCargo(funcionarioDTO.getCargo());
+      funcionario.setSalario(funcionarioDTO.getSalario());
+      funcionario.setDataContratacao(funcionarioDTO.getDataContratacao());
+      // Outros campos que podem precisar de atualização
+
+      funcionario = funcionarioRepository.save(funcionario);
+      return FuncionarioDTO.fromEntity(funcionario);
+    }
+    return null;
+  }
+
+  @Transactional
   public boolean deleteFuncionario(Long id) {
     Optional<Funcionario> optionalFuncionario = funcionarioRepository.findById(id);
     if (optionalFuncionario.isPresent()) {

@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "tb_lote")
 @AllArgsConstructor
@@ -14,24 +17,23 @@ import lombok.Setter;
 @Setter
 public class Lote {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column
-    private String nome;
+  @Column
+  private String nome;
 
-    @Column
-    private int areaTotalLote;
+  @Column
+  private int areaTotalLote;
 
-    @Column
-    private String tipoDeSolo;
+  @Column
+  private String tipoDeSolo;
 
-    @ManyToOne
-    @JoinColumn(name = "fazenda_id", referencedColumnName = "id")
-    private Fazenda fazenda;
+  @ManyToOne
+  @JoinColumn(name = "fazenda_id", referencedColumnName = "id")
+  private Fazenda fazenda;
 
-    @OneToOne(mappedBy = "lote")
-    private Cultivo cultivo;
-
+  @OneToMany(mappedBy = "lote", cascade = CascadeType.ALL)
+  private Set<Cultivo> cultivos = new HashSet<>();
 }

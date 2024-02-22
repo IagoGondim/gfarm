@@ -23,32 +23,42 @@ public class CultivoController {
   @GetMapping
   public ResponseEntity<List<CultivoDTO>> getAllCultivos() {
     List<CultivoDTO> cultivos = cultivoService.getAllCultivos();
-    return ResponseEntity.ok(cultivos);
+    return new ResponseEntity<>(cultivos, HttpStatus.OK);
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<CultivoDTO> getCultivoById(@PathVariable Long id) {
     CultivoDTO cultivo = cultivoService.getCultivoById(id);
     if (cultivo != null) {
-      return ResponseEntity.ok(cultivo);
+      return new ResponseEntity<>(cultivo, HttpStatus.OK);
     } else {
-      return ResponseEntity.notFound().build();
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
   }
 
   @PostMapping
   public ResponseEntity<CultivoDTO> addCultivo(@RequestBody CultivoDTO cultivoDTO) {
-    CultivoDTO newCultivo = cultivoService.addCultivo(cultivoDTO);
-    return ResponseEntity.status(HttpStatus.CREATED).body(newCultivo);
+    CultivoDTO novoCultivo = cultivoService.addCultivo(cultivoDTO);
+    return ResponseEntity.ok().body(novoCultivo);
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<CultivoDTO> atualizarCultivo(@PathVariable Long id, @RequestBody CultivoDTO cultivoDTO) {
+    CultivoDTO cultivoAtualizado = cultivoService.atualizarCultivo(id, cultivoDTO);
+    if (cultivoAtualizado != null) {
+      return ResponseEntity.ok().body(cultivoAtualizado);
+    } else {
+      return ResponseEntity.notFound().build();
+    }
   }
 
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deleteCultivo(@PathVariable Long id) {
     boolean deleted = cultivoService.deleteCultivo(id);
     if (deleted) {
-      return ResponseEntity.noContent().build();
+      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     } else {
-      return ResponseEntity.notFound().build();
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
   }
 }

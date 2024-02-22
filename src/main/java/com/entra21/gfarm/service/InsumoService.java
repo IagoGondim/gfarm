@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 public class InsumoService {
 
   private final InsumoRepository insumoRepository;
-
   private final FazendaRepository fazendaRepository;
 
   @Autowired
@@ -45,6 +44,31 @@ public class InsumoService {
     Insumo insumo = convertToEntity(insumoDTO);
     insumo = insumoRepository.save(insumo);
     return convertToDTO(insumo);
+  }
+
+  @Transactional
+  public InsumoDTO atualizarInsumo(Long id, InsumoDTO insumoDTO) {
+    Optional<Insumo> optionalInsumo = insumoRepository.findById(id);
+    if (optionalInsumo.isPresent()) {
+      Insumo insumo = optionalInsumo.get();
+      insumo.setNome(insumoDTO.getNome());
+      insumo.setTipo(insumoDTO.getTipo());
+      insumo.setQuantidadeDisponivel(insumoDTO.getQuantidadeDisponivel());
+      insumo.setPrecoUnitario(insumoDTO.getPrecoUnitario());
+
+      if (insumoDTO.getFazendaId() != null) {
+        Fazenda fazenda = fazendaRepository.findById(insumoDTO.getFazendaId())
+                .orElseThrow(() -> new RuntimeException("Fazenda com o ID " + insumoDTO.getFazendaId() + " não encontrada."));
+        insumo.setFazenda(fazenda);
+      } else {
+        insumo.setFazenda(null);
+      }
+
+      insumo = insumoRepository.save(insumo);
+      return convertToDTO(insumo);
+    } else {
+      return null;
+    }
   }
 
   @Transactional
