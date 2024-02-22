@@ -1,6 +1,5 @@
 package com.entra21.gfarm.model;
 
-import com.entra21.gfarm.model.Fazenda;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,5 +30,8 @@ public class Lote {
     @ManyToOne
     @JoinColumn(name = "fazenda_id", referencedColumnName = "id")
     private Fazenda fazenda;
+
+    @OneToOne(mappedBy = "lote")
+    private Cultivo cultivo;
 
 }

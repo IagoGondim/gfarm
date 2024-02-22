@@ -2,37 +2,83 @@ package com.entra21.gfarm.service;
 
 import com.entra21.gfarm.dto.CultivoDTO;
 import com.entra21.gfarm.model.Cultivo;
+import com.entra21.gfarm.model.Lote;
 import com.entra21.gfarm.repository.CultivoRepository;
+import com.entra21.gfarm.repository.LoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class CultivoService {
 
-    @Autowired
-    private CultivoRepository cultivoRepository;
+  private final CultivoRepository cultivoRepository;
+  private final LoteRepository loteRepository;
 
-    public Set<CultivoDTO> listarCultivosDTO() {
-        Set<Cultivo> cultivos = new HashSet<>(cultivoRepository.findAll());
-        return cultivos.stream().map(CultivoDTO::fromEntity).collect(Collectors.toSet());
+  @Autowired
+  public CultivoService(CultivoRepository cultivoRepository, LoteRepository loteRepository) {
+    this.cultivoRepository = cultivoRepository;
+    this.loteRepository = loteRepository;
+  }
+
+  @Transactional(readOnly = true)
+  public List<CultivoDTO> getAllCultivos() {
+    List<Cultivo> cultivos = cultivoRepository.findAll();
+    return cultivos.stream().map(this::convertToDto).collect(Collectors.toList());
+  }
+
+  @Transactional(readOnly = true)
+  public CultivoDTO getCultivoById(Long id) {
+    Optional<Cultivo> optionalCultivo = cultivoRepository.findById(id);
+    return optionalCultivo.map(this::convertToDto).orElse(null);
+  }
+
+  @Transactional
+  public CultivoDTO addCultivo(CultivoDTO cultivoDTO) {
+    Cultivo cultivo = convertToEntity(cultivoDTO);
+    cultivo = cultivoRepository.save(cultivo);
+    return convertToDto(cultivo);
+  }
+
+  @Transactional
+  public boolean deleteCultivo(Long id) {
+    Optional<Cultivo> optionalCultivo = cultivoRepository.findById(id);
+    if (optionalCultivo.isPresent()) {
+      cultivoRepository.deleteById(id);
+      return true;
+    } else {
+      return false;
     }
+  }
 
-    public CultivoDTO obterCultivoDTOPorId(Long id) {
-        Cultivo cultivo = cultivoRepository.findById(id).orElse(null);
-        return (cultivo != null) ? CultivoDTO.fromEntity(cultivo) : null;
+  private CultivoDTO convertToDto(Cultivo cultivo) {
+    CultivoDTO dto = new CultivoDTO();
+    dto.setId(cultivo.getId());
+    dto.setNome(cultivo.getNome());
+    dto.setDescricao(cultivo.getDescricao());
+    dto.setDataDePlantio(cultivo.getDataDePlantio());
+    dto.setDataColheitaPrevista(cultivo.getDataColheitaPrevista());
+    if (cultivo.getLote() != null) {
+      dto.setLoteId(cultivo.getLote().getId());
     }
+    return dto;
+  }
 
-    public CultivoDTO criarCultivoDTO(CultivoDTO cultivoDTO) {
-        Cultivo cultivo = new Cultivo();
-        cultivo.setNome(cultivoDTO.getNome());
-        cultivo.setDataDePlantio(cultivoDTO.getDataDePlantio());
-        cultivo.setDataColheitaPrevista(cultivoDTO.getDataColheitaPrevista());
-        Cultivo novaCultivo = cultivoRepository.save(cultivo);
-        return CultivoDTO.fromEntity(novaCultivo);
+  private Cultivo convertToEntity(CultivoDTO dto) {
+    Cultivo cultivo = new Cultivo();
+    cultivo.setId(dto.getId());
+    cultivo.setNome(dto.getNome());
+    cultivo.setDescricao(dto.getDescricao());
+    cultivo.setDataDePlantio(dto.getDataDePlantio());
+    cultivo.setDataColheitaPrevista(dto.getDataColheitaPrevista());
+    if (dto.getLoteId() != null) {
+      Optional<Lote> optionalLote = loteRepository.findById(dto.getLoteId());
+      optionalLote.ifPresent(cultivo::setLote);
     }
-
+    return cultivo;
+  }
 }

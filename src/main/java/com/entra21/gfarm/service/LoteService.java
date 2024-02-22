@@ -72,7 +72,6 @@ public class LoteService {
     lote.setNome(dto.getNome());
     lote.setAreaTotalLote(dto.getAreaTotalLote());
     lote.setTipoDeSolo(dto.getTipoDeSolo());
-    // Definindo a fazenda do lote
     if (dto.getFazendaId() != null) {
       Fazenda fazenda = new Fazenda();
       fazenda.setId(dto.getFazendaId());

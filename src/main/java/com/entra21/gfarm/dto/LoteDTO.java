@@ -11,4 +11,6 @@ public class LoteDTO {
   private int areaTotalLote;
   private String tipoDeSolo;
   private Long fazendaId;
+
+  private CultivoDTO cultivo;
 }

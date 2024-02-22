@@ -1,6 +1,5 @@
 package com.entra21.gfarm.model;
 
-import com.entra21.gfarm.model.Lote;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +22,9 @@ public class Cultivo {
 
     @Column
     private String nome;
+
+    @Column
+    private String descricao;
 
     @Temporal(TemporalType.DATE)
     private Date dataDePlantio;
