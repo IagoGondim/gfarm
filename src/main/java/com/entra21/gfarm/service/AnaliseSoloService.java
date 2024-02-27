@@ -56,32 +56,49 @@ public class AnaliseSoloService {
         throw new EntityNotFoundException("Lote não encontrado com o ID fornecido: " + analiseSoloDTO.getLoteId());
       }
     }
-
     novaAnaliseSolo = analiseSoloRepository.save(novaAnaliseSolo);
     return convertToDTO(novaAnaliseSolo);
   }
-
 
   @Transactional
   public AnaliseSoloDTO atualizarAnaliseSolo(Long id, AnaliseSoloDTO analiseSoloDTO) {
     Optional<AnaliseSolo> optionalAnaliseSolo = analiseSoloRepository.findById(id);
     if (optionalAnaliseSolo.isPresent()) {
       AnaliseSolo analiseSolo = optionalAnaliseSolo.get();
-      analiseSolo.setNome(analiseSoloDTO.getNome());
 
-      Optional<Lote> loteOptional = loteRepository.findById(analiseSoloDTO.getLoteId());
-      if (loteOptional.isPresent()) {
-        Lote lote = loteOptional.get();
-        analiseSolo.setLotes(new HashSet<>(Collections.singletonList(lote)));
+      analiseSolo.setNomeLaboratorio(analiseSoloDTO.getNomeLaboratorio());
+      analiseSolo.setDataAmostragem(analiseSoloDTO.getDataAmostragem());
+      analiseSolo.setProfundidadeAmostragem(analiseSoloDTO.getProfundidadeAmostragem());
+      analiseSolo.setPH(analiseSoloDTO.getPH());
+      analiseSolo.setMateriaOrganica(analiseSoloDTO.getMateriaOrganica());
+      analiseSolo.setNitrogenioTotal(analiseSoloDTO.getNitrogenioTotal());
+      analiseSolo.setFosforo(analiseSoloDTO.getFosforo());
+      analiseSolo.setPotassio(analiseSoloDTO.getPotassio());
+      analiseSolo.setCalcio(analiseSoloDTO.getCalcio());
+      analiseSolo.setMagnesio(analiseSoloDTO.getMagnesio());
+      analiseSolo.setEnxofre(analiseSoloDTO.getEnxofre());
+      analiseSolo.setZinco(analiseSoloDTO.getZinco());
+      analiseSolo.setCobre(analiseSoloDTO.getCobre());
+      analiseSolo.setBoro(analiseSoloDTO.getBoro());
+      analiseSolo.setManganes(analiseSoloDTO.getManganes());
+
+      if (analiseSoloDTO.getLoteId() != null) {
+        Optional<Lote> loteOptional = loteRepository.findById(analiseSoloDTO.getLoteId());
+        if (loteOptional.isPresent()) {
+          Lote lote = loteOptional.get();
+          analiseSolo.setLotes(new HashSet<>(Collections.singletonList(lote)));
+        } else {
+          throw new EntityNotFoundException("Lote não encontrado com o ID fornecido: " + analiseSoloDTO.getLoteId());
+        }
       } else {
-        throw new EntityNotFoundException("Lote não encontrado com o ID fornecido: " + analiseSoloDTO.getLoteId());
+        analiseSolo.setLotes(null);
       }
       analiseSolo = analiseSoloRepository.save(analiseSolo);
       return convertToDTO(analiseSolo);
+    } else {
+      throw new EntityNotFoundException("Análise de solo não encontrada com o ID fornecido: " + id);
     }
-    return null;
   }
-
 
   @Transactional
   public boolean deleteAnaliseSolo(Long id) {
@@ -96,7 +113,21 @@ public class AnaliseSoloService {
   private AnaliseSoloDTO convertToDTO(AnaliseSolo analiseSolo) {
     AnaliseSoloDTO dto = new AnaliseSoloDTO();
     dto.setId(analiseSolo.getId());
-    dto.setNome(analiseSolo.getNome());
+    dto.setNomeLaboratorio(analiseSolo.getNomeLaboratorio());
+    dto.setDataAmostragem(analiseSolo.getDataAmostragem());
+    dto.setProfundidadeAmostragem(analiseSolo.getProfundidadeAmostragem());
+    dto.setPH(analiseSolo.getPH());
+    dto.setMateriaOrganica(analiseSolo.getMateriaOrganica());
+    dto.setNitrogenioTotal(analiseSolo.getNitrogenioTotal());
+    dto.setFosforo(analiseSolo.getFosforo());
+    dto.setPotassio(analiseSolo.getPotassio());
+    dto.setCalcio(analiseSolo.getCalcio());
+    dto.setMagnesio(analiseSolo.getMagnesio());
+    dto.setEnxofre(analiseSolo.getEnxofre());
+    dto.setZinco(analiseSolo.getZinco());
+    dto.setCobre(analiseSolo.getCobre());
+    dto.setBoro(analiseSolo.getBoro());
+    dto.setManganes(analiseSolo.getManganes());
     if (!analiseSolo.getLotes().isEmpty()) {
       dto.setLoteId(analiseSolo.getLotes().iterator().next().getId());
     }
@@ -108,7 +139,21 @@ public class AnaliseSoloService {
   private AnaliseSolo convertToEntity(AnaliseSoloDTO dto) {
     AnaliseSolo analiseSolo = new AnaliseSolo();
     analiseSolo.setId(dto.getId());
-    analiseSolo.setNome(dto.getNome());
+    analiseSolo.setNomeLaboratorio(dto.getNomeLaboratorio());
+    analiseSolo.setDataAmostragem(dto.getDataAmostragem());
+    analiseSolo.setProfundidadeAmostragem(dto.getProfundidadeAmostragem());
+    analiseSolo.setPH(dto.getPH());
+    analiseSolo.setMateriaOrganica(dto.getMateriaOrganica());
+    analiseSolo.setNitrogenioTotal(dto.getNitrogenioTotal());
+    analiseSolo.setFosforo(dto.getFosforo());
+    analiseSolo.setPotassio(dto.getPotassio());
+    analiseSolo.setCalcio(dto.getCalcio());
+    analiseSolo.setMagnesio(dto.getMagnesio());
+    analiseSolo.setEnxofre(dto.getEnxofre());
+    analiseSolo.setZinco(dto.getZinco());
+    analiseSolo.setCobre(dto.getCobre());
+    analiseSolo.setBoro(dto.getBoro());
+    analiseSolo.setManganes(dto.getManganes());
     return analiseSolo;
   }
 }

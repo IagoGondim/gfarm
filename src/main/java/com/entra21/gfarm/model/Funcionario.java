@@ -17,23 +17,17 @@ import java.util.Set;
 @Getter
 @Setter
 public class Funcionario {
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-
   @Column
   private String nome;
-
   @Column
   private String cargo;
-
   @Column
   private int salario;
-
   @Column
   private Timestamp dataContratacao;
-
   @ManyToOne
   @JoinColumn(name = "fazenda_id", referencedColumnName = "id")
   private Fazenda fazenda;
