@@ -51,7 +51,6 @@ public class FuncionarioService {
       funcionario.setCargo(funcionarioDTO.getCargo());
       funcionario.setSalario(funcionarioDTO.getSalario());
       funcionario.setDataContratacao(funcionarioDTO.getDataContratacao());
-      // Outros campos que podem precisar de atualização
 
       funcionario = funcionarioRepository.save(funcionario);
       return FuncionarioDTO.fromEntity(funcionario);

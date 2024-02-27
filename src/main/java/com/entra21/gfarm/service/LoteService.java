@@ -50,7 +50,6 @@ public class LoteService {
       Lote lote = optionalLote.get();
       lote.setNome(loteDTO.getNome());
       lote.setAreaTotalLote(loteDTO.getAreaTotalLote());
-      lote.setTipoDeSolo(loteDTO.getTipoDeSolo());
 
       if (loteDTO.getFazendaId() != null) {
         Fazenda fazenda = new Fazenda();
@@ -83,7 +82,6 @@ public class LoteService {
     dto.setId(lote.getId());
     dto.setNome(lote.getNome());
     dto.setAreaTotalLote(lote.getAreaTotalLote());
-    dto.setTipoDeSolo(lote.getTipoDeSolo());
     if (lote.getFazenda() != null) {
       dto.setFazendaId(lote.getFazenda().getId());
     }
@@ -95,7 +93,6 @@ public class LoteService {
     lote.setId(dto.getId());
     lote.setNome(dto.getNome());
     lote.setAreaTotalLote(dto.getAreaTotalLote());
-    lote.setTipoDeSolo(dto.getTipoDeSolo());
     if (dto.getFazendaId() != null) {
       Fazenda fazenda = new Fazenda();
       fazenda.setId(dto.getFazendaId());

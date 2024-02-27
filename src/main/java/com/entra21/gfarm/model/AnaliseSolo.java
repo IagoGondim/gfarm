@@ -9,31 +9,27 @@ import lombok.Setter;
 import java.util.HashSet;
 import java.util.Set;
 
+
 @Entity
-@Table(name = "tb_lote")
+@Table(name = "tb_analiseSolo")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Lote {
+public class AnaliseSolo {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @Column
   private String nome;
-
   @Column
-  private int areaTotalLote;
+  private String profundidadeAmostragem;
 
-  @ManyToOne
-  @JoinColumn(name = "fazenda_id", referencedColumnName = "id")
-  private Fazenda fazenda;
-
-  @ManyToMany(mappedBy = "lotes")
-  private Set<AnaliseSolo> analisesSolos = new HashSet<>();
-
-  @OneToMany(mappedBy = "lote", cascade = CascadeType.ALL)
-  private Set<Cultivo> cultivos = new HashSet<>();
-
+  @ManyToMany
+  @JoinTable(
+          name = "analiseSolo_lote",
+          joinColumns = @JoinColumn(name = "analiseSolo_id"),
+          inverseJoinColumns = @JoinColumn(name = "lote_id"))
+  private Set<Lote> lotes = new HashSet<>();
 }
